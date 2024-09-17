@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import SplashScreen from './components/splashScreen';
 import LandingPage from './components/landingPage';
@@ -9,7 +9,10 @@ function App() {
   const [showSplashScreen, setShowSplashScreen] = useState(true);
 
   // Simulate splash screen timeout
-  setTimeout(() => setShowSplashScreen(false), 2000);
+  useEffect(() => {
+    const timeout = setTimeout(() => setShowSplashScreen(false), 2000);
+    return () => clearTimeout(timeout);
+  }, [])
 
   return (
     <Router>
