@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.png';
+import './splashScreen.css';
 
 const SplashScreen = () => {
   const navigate = useNavigate();
@@ -12,9 +14,9 @@ const SplashScreen = () => {
     return () => clearTimeout(timeout);
   }, [navigate]);
 
-  return (
+  return(
     <div className="splash-screen">
-      <h1>Welcome to HYperCast</h1>
+      <img src={logo} alt="HyperCast Logo" className="splash-logo" />
     </div>
   );
 };
