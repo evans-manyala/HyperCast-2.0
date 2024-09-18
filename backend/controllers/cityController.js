@@ -18,15 +18,17 @@ const getRandomCity = async (req, res) => {
         // Check if the API returns valid results
         if (data.results.length > 0) {
             const results = data.results[0];
+            const isoAlpha2 = results.components['ISO_3166-1_alpha-2'];
+            const flagUrl = `https://flagcdn.com/w320/${isoAlpha2.toLowerCase()}.png`;
 
             const cityData = {
                 city: randomCity,
                 lat: results.geometry.lat,
                 lon: results.geometry.lng,
-                flag: results.annotations.flag,
-                isoAlpha2: results.components['ISO_3166-1_alpha-2']
+                flagUrl,
+                isoAlpha2
             };
-            // Return the random city with its coordinates
+            // Return the random city with its coordinates, ISO code, and flag URL
             res.json(cityData);
         } else {
             res.status(400).json({ message: 'City not found' });
