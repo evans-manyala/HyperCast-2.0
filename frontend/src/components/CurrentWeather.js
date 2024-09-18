@@ -8,23 +8,32 @@ const calculateLocalTime = (timezoneOffset) => {
   const localTime = new Date(utcTime + timezoneOffset * 1000); // Adjust for the timezone offset
   return localTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format local time
 };
+// Function to convert ISO Alpha-2 country code to flag emoji
+const getFlagEmoji = (countryCode) => {
+  return countryCode
+    .toUpperCase()
+    .replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt()));
+};
 
-const CurrentWeather = ({ lat, lon }) => {
+const CurrentWeather = () => {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState(null);
+  const [cityInfo, setCityInfo] = useState({ city: '', flag: '', isoAlpha2: '' });
+
 
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const data = await getWeather(lat, lon);
-        setWeather(data);
+        const { city, weather, isoAlpha2 } = await getWeather();
+        setCityInfo({ city, flag: getFlagEmoji(isoAlpha2), isoAlpha2 }); // Set the random City name, flag, ISO Alpha data*/
+        setWeather(weather);
       } catch (error) {
         setError('Failed to fetch weather data');
       }
     };
 
     fetchWeather();
-  }, [lat, lon]);
+  }, []);
 
   // Memoize the icon URL to avoid unnecessary recalculations
   const iconUrl = useMemo(() => {
@@ -39,17 +48,19 @@ const CurrentWeather = ({ lat, lon }) => {
   }, [weather]);
 
   if (error) return <p>{error}</p>;
-  if (!weather) return <p>Loading...</p>;
+  if (!weather || !cityInfo.city) return <p>Loading...</p>;
 
   // Render the current weather information
   return (
-    <div className="current-weather">
+<div className="current-weather">
       <div className="current-weather-card">
         <h2>Current Weather</h2>
+        <p>Country: {cityInfo.isoAlpha2}</p>
+        <img src={cityInfo.flag} alt={`${cityInfo.city} Flag`} style={{ width: '50px', height: '30px' }} />
         <img 
           src={iconUrl} 
           alt={weather?.weather[0].description} 
-          onError={(e) => { e.target.onerror = null; e.target.src = '/src/components/assets/Error.png'; }} // Fallback image on error
+          onError={(e) => { e.target.onerror = null; e.target.src = '/src/assets/Error.png'; }} // Fallback image on error
         />
         <div className="current-weather-details">
           <div>
