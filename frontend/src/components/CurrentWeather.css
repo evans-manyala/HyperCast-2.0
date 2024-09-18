@@ -48,6 +48,24 @@
   margin-bottom: 5px;
 }
 
+/* New class for flag and city information */
+.city-info {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.flag-icon {
+  width: 20px; /* Reduced size for the flag */
+  height: auto;
+  margin-right: 5px;
+}
+
+.city-info span {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
 @media (max-width: 600px) {
   .current-weather-details {
     flex-direction: column;
@@ -62,6 +80,14 @@
   .weather-icon {
     width: 30px;
     height: 30px;
+  }
+
+  .flag-icon {
+    width: 1px; /* Further reduce the size for smaller screens */
+  }
+
+  .city-info span {
+    font-size: 1.2em;
   }
 }
 

@@ -15,8 +15,8 @@ export const getWeather = async () => {
     return{
       city: randomCityData.city, //City name
       weather: response.data, //Weather data
-      flag: randomCityData.flag, // Flag of the country
-      isoAlpha2: randomCityData.isoAlpha2 //ISO naming of the country
+      flagUrl: randomCityData.flagUrl, // Flag of the country
+      isoAlpha2: randomCityData.isoAlpha2//ISO naming of the country
     } 
       }
       catch (error) {
